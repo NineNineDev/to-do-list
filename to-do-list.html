@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+        integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+        crossorigin="anonymous" />
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+
+        .width {
+            border-radius: 20px;
+            width: 350px;
+        }
+
+        body,
+        html {
+            height: 100%;
+        }
+
+        .bg {
+            background-image: url("https://images.pexels.com/photos/629167/pexels-photo-629167.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            height: 100%;
+        }
+
+        .box {
+            background-color: skyblue;
+            border: 0.5px solid skyblue;
+            color: #fff;
+            margin-top: 50px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-top: 20px;
+        }
+
+        .list {
+            background-color: #fff;
+            border: 2px solid #fff;
+            color: gray;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .saySomething {
+            padding-left: 5px;
+            border-left: 3px solid #fff;
+            margin-left: 40px;
+        }
+
+        h2 {
+            display: inline;
+            margin-left: 40px;
+        }
+
+        .plus {
+            border: 2px solid #fff;
+            padding: 20px;
+            border-radius: 100%;
+            background: #fff;
+            color: skyblue;
+            margin-left: 30%;
+        }
+
+        input {
+            border: 0px solid skyblue;
+            background-color: skyblue;
+            color: #fff;
+        }
+
+        ::placeholder {
+            color: #fff;
+        }
+
+        .userInputStyle {
+            background: beige;
+            margin: 10px 20px;
+            padding: 10px 15px;
+            border: 1px solid #6f6a6a22;
+            border-radius: 5px;
+            color: skyblue;
+        }
+
+        h3 {
+            display: inline;
+        }
+
+        .edt {
+            margin-left: 70px;
+            color: #00ff00;
+        }
+
+        .del {
+            margin-left: 10px;
+            color: #ff0000;
+        }
+
+        @media screen and (max-width: 415px) {
+            .width {
+                width: 100%;
+            }
+
+            .box {
+                margin-top: 0px;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg">
+
+    <div class="box width">
+        <h2>To Do List</h2>
+
+        <i class="fas fa-plus plus" onclick="btnClick()"></i>
+        <input type="text" class="saySomething" placeholder="Say Something ..." autofocus>
+        <div class="list width" id="userInput">
+
+        </div>
+    </div>
+
+    <script>
+
+        let i = 1;
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+
+        function btnClick() {
+
+
+            let v = document.querySelector("input");
+            let x = v.value;
+
+
+            if (x.length >= 1) {
+
+
+                document.querySelector("#userInput").innerHTML += `
+                <div class="userInputStyle" id="userInputs${i}">
+                    <h3 id="userInputItem${i}">${x}</h3><br>
+                    <span>
+                        <small id="time">${getTime()}
+                        </small>
+                        <i class="far fa-edit edt" onclick="edtInput(${i})"></i>
+                        <i class="far fa-trash-alt del" onclick="delInput(${i})"></i>
+                    </span>
+                </div>`;
+                i++;
+            }
+            v.value = "";
+
+
+        }
+
+        function delInput(y) {
+
+            let item = document.querySelector(`#userInputItem${y}`).innerHTML;
+            let larr = confirm(`Are you sure to delete "${item}" from list`);
+
+
+            if (larr == true)
+                document.querySelector(`#userInputs${y}`).remove();
+
+        }
+        function edtInput(y) {
+
+            let current = document.querySelector(`#userInputItem${y}`);
+            let newText = prompt("Say Something ...", current.innerHTML);
+
+            if (newText.length > 0) {
+
+                current.innerHTML = newText;
+                document.querySelector(`#time`).innerHTML = getTime();
+            } else {
+                alert("Can't edit to empty text");
+            }
+
+        }
+        function getTime() {
+            let date = new Date();
+            let minute = date.getMinutes();
+            if (minute < 10) {
+                minute = `0` + minute;
+            }
+
+            let hour = date.getHours();
+            if (hour > 12) {
+                hour -= 12;
+            }
+
+            return `${hour}:${minute}&nbsp;${monthNames[date.getMonth()]}&nbsp;${date.getDate()}`;
+        }
+
+    </script>
+
+</body>
+
+</html>
